@@ -1,6 +1,6 @@
 // uses createData function to create an array of
 // 1,000,000 emails addresses
-const emails = createData(['rob', 'elvis', 'suzie', 'james', 'nate', 'heather', 'linda', 'jim', 'syd', 'taylor', 'peter', 'andrew', 'ada', 'reed'], 100000, 'gmail');
+const emails = createData(['rob', 'elvis', 'suzie', 'james', 'nate', 'heather', 'linda', 'jim', 'syd', 'taylor', 'peter', 'andrew', 'ada', 'reed'], 100000, '@gmail.com');
 
 //logging the email addresses since painting it to the DOM would require a ton of memory
 console.log(`Check this out, it's 1M email addresses`, emails);
@@ -128,7 +128,7 @@ function createData(arr, iterator, opt_str) {
   let collector = [];
   for (var x=0; x<iterator; x++) {
     var randomNumber = Math.floor(Math.random() * arr.length);
-    collector.push(`${arr[randomNumber]}@${opt_str}.com`);
+    collector.push(`${arr[randomNumber]}${opt_str}`);
   }
 
   return collector;
