@@ -117,7 +117,8 @@ function createAndAppendDOM(options) {
     }
   })
 };
-/* Helper function to create an array of email data
+
+/** Helper function to create an array of email data
 
 params: arr {Array} //an array of strings used as basis to create the iterated  collector array
 params: iterator {Number}
