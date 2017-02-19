@@ -1,0 +1,62 @@
+body {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+sup {
+  font-size: 10px;
+  color: gray;
+}
+
+sup:before {
+  content: '**';
+}
+
+li {
+  list-style: none;
+}
+
+#test,
+#emails {
+  padding: 0;
+}
+
+#test {
+  display: flex;
+}
+
+#test .fail {
+  background: red;
+
+}
+
+#test .fail:before {
+  content: '** Test FAILED, Wah Wah ** ';
+  padding-bottom: 10px;
+}
+
+#test .pass {
+  background: green;
+}
+
+#test .pass:before {
+  content: '** Test PASSED, How about a high-5! ** ';
+  padding-bottom: 10px;
+}
+
+.milliseconds.pass {
+  color: green;
+}
+
+.milliseconds.fail {
+  color: red;
+}
+
+#test .pass,
+#test .fail {
+  font-weight: bold;
+  margin: 15px;
+  color: white;
+  border-bottom: 5px solid #ffffaa;
+  padding: 8px;
+}
