@@ -3,15 +3,16 @@ let startTime;
 let endTime;
 let executionTime;
 let removeDups;
+let emailArr;
 // uses createData function to create an array of
 // 1,000,000 emails addresses
-const emails = createData(['rob', 'elvis', 'suzie', 'james', 'nate', 'heather', 'linda', 'jim', 'syd', 'taylor', 'peter', 'andrew', 'ada', 'reed'], 100000, '@gmail.com');
+emailArr = createData(['rob', 'elvis', 'suzie', 'james', 'nate', 'heather', 'linda', 'jim', 'syd', 'taylor', 'peter', 'andrew', 'ada', 'reed'], 100000, '@gmail.com');
 
 //logging the email addresses since painting it to the DOM would require a ton of memory
 console.log(`Check this out, it's 100K email addresses`, emails);
 
 startTime = new Date();
-removeDups = removeDuplicates(emails);
+removeDups = removeDuplicates(emailArr);
 endTime = new Date();
 executionTime = endTime.getMilliseconds() - startTime.getMilliseconds();
 
@@ -36,7 +37,7 @@ assert(executionTime < 1000, `Amount of time it takes removeDuplicates Test to e
 assert(isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3]), 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are in original order', 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are not in original order', 'isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3])')
 
 //Testing that items in removeDups array are in the same order as the original emails array
-assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the same order as the original array', 'Note all emails are in the same order as the original array', 'isInOriginalOrderAfterDedupe(emails, removeDups)');
+assert(isInOriginalOrderAfterDedupe(emailArr, removeDups), 'All emails are in the same order as the original array', 'Note all emails are in the same order as the original array', 'isInOriginalOrderAfterDedupe(emails, removeDups)');
 
 /** Functions **/
 
@@ -49,6 +50,7 @@ assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the 
   params: testOutcome {Boolean}
   params: testDescription {String}
   params: 'errorMsg' {String} *optional
+  params: 'assertion' {String} *optional
 */
 function assert(testOutcome, testDescription, errorMsg, assertion) {
   const msg = testOutcome ? testDescription:errorMsg || '';
@@ -60,17 +62,19 @@ function assert(testOutcome, testDescription, errorMsg, assertion) {
     id: 'test'
   });
 
-  createAndAppendDOM({
-    htmlData: [`Assertion Tested: ${assertion}`],
-    tag:'p',
-    id: assertion
-  });
+  if(assertion) {
+    createAndAppendDOM({
+      htmlData: [`Assertion Tested: ${assertion}`],
+      tag:'p',
+      id: assertion
+    });
 
-  createAndAppendDOM({
-    htmlData: ['View Assertion'],
-    tag:'div',
-    id: assertion
-  });
+    createAndAppendDOM({
+      htmlData: ['View Assertion'],
+      tag:'div',
+      id: assertion
+    });
+  }
 
   let id = document.getElementById(assertion);
   id.addEventListener('click', function(e) {

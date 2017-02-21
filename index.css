@@ -2,11 +2,10 @@ body,
 button {
   font-size: 16px;
   font-family: sans-serif;
-  cursor: pointer;
 }
 
 sup {
-  font-size: 10px;
+  font-size: .5em;
   color: gray;
 }
 
@@ -16,6 +15,13 @@ sup:before {
 
 li {
   list-style: none;
+}
+
+button {
+  width: 90%;
+  cursor: pointer;
+  padding: 10%;
+  box-sizing: border-box;
 }
 
 #test,
@@ -34,7 +40,7 @@ li {
 }
 
 #test .pass {
-  background: #81b381;
+  background: #719e71;
 }
 
 #test .pass:before {
@@ -43,7 +49,7 @@ li {
 }
 
 .milliseconds.pass {
-  color: #81b381;
+  color: #719e71;
 }
 
 .milliseconds.fail {
