@@ -21,10 +21,6 @@ li {
   padding: 0;
 }
 
-#test {
-  display: flex;
-}
-
 #test .fail {
   background: red;
 

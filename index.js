@@ -1,14 +1,19 @@
+//Used to see how long it takes the script to evaluate
+let startTime;
+let endTime;
+let executionTime;
+let removeDups;
 // uses createData function to create an array of
 // 1,000,000 emails addresses
 const emails = createData(['rob', 'elvis', 'suzie', 'james', 'nate', 'heather', 'linda', 'jim', 'syd', 'taylor', 'peter', 'andrew', 'ada', 'reed'], 100000, '@gmail.com');
 
 //logging the email addresses since painting it to the DOM would require a ton of memory
-console.log(`Check this out, it's 1M email addresses`, emails);
+console.log(`Check this out, it's 100K email addresses`, emails);
 
-const startFunctionTime = new Date();
-var removeDups = removeDuplicates(emails);
-const endFunctionTime = new Date();
-const executionTime = endFunctionTime.getMilliseconds() - startFunctionTime.getMilliseconds();
+startTime = new Date();
+removeDups = removeDuplicates(emails);
+endTime = new Date();
+executionTime = endTime.getMilliseconds() - startTime.getMilliseconds();
 
 // Creates DOM for DeDuped Lists unordered list
 createAndAppendDOM({
@@ -18,13 +23,28 @@ createAndAppendDOM({
   id: 'emails'
 });
 
+/** Unit Testing **/
+//Testing hasDuplicates Flag with generic/hardcoded array
+assert(hasDuplicates([2, 4, 5, 2]), 'Test to check that hasDuplicates flag works: this array has duplicates', 'Test that hasDuplicates flag works: this array does not have duplicates')
+//Tesing that removeDups is actually a deduped array of emails
+assert(!hasDuplicates(removeDups),  'Test for removeDuplicates function: there are no duplicates in this array', 'Test for removeDuplicates function: there are duplicates in this array');
 
-//Unit Testing
-assert(!hasDuplicates(removeDups),  'removeDuplicates Test: there are no duplicates in this array', 'removeDuplicatesTest: there are duplicates in this array');
-assert(executionTime < 1000, `removeDuplicates Test: Function took ${executionTime}ms to execute. Nice!`, 'removeDuplicatesTest: removeDuplicates Function took ${executionTime}ms to execute.  Better luck next time.' );
+//Testing execution time of the removeDuplicates function
+assert(executionTime < 1000, `Amount of time it takes removeDuplicates Test to execute: Function took ${executionTime}ms to execute. Nice!`, 'Amount of time it takes removeDuplicates Test to execute: removeDuplicates Function took ${executionTime}ms to execute.  Better luck next time.' );
+
+//Testing ordering of Deduped function using generic arrays
+assert(isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3]), 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are in original order', 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are not in original order')
+
+//Testing that items in removeDups array are in the same order as the original emails array
+assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the same order as the original array', 'Note all emails are in the same order as the original array');
+
+/** Functions **/
 
 /**
   sets up a assert function used for unit testing
+  appends the pass/fail div to the html document
+
+  side-effect: adds <li> to document
 
   params: testOutcome {Boolean}
   params: testDescription {String}
@@ -46,6 +66,8 @@ function assert(testOutcome, testDescription, errorMsg) {
   arr (i.e. indexOf the arr) if the second instance of
   an item comes up the index will not equal the first
   indexOf that item and thus will not pass the filter test
+
+  returns {Array}
 
   params: arr {Array}
 */
@@ -73,11 +95,15 @@ function removeDuplicates(arr) {
   Checks for duplicates in an array
   Used in the testing suite to check
   if array of emails has any duplicates
+  returns true if the (first)indexOf item[x]
+  is not eq to the lastIndexOf that item
+
+  returns {Boolean}
 
   params: arr {Array}
 */
 function hasDuplicates(arr) {
-  //returns true if the item[x] is not eq to the lastIndexOf that item
+
   for(var x = 0; x <  arr.length; x++) {
     if(x !== arr.lastIndexOf(arr[x])) {
       return x !== arr.lastIndexOf(arr[x]);
@@ -87,14 +113,33 @@ function hasDuplicates(arr) {
 };
 
 /**
-Helper function to create DOM nodes.
+ Helper Function that compares input array which is being deduped to
+ output array and determines if they are equivalent.  first it dedupes
+ the input array and checks if the deduped arr and its output array
+ are equivalent. If so the order has not mutated and thus the function
+ returns true;
+
+ returns {Boolean}
+
+ params: inputedArr {Array} original array
+ params: outputedArr {Array} resulting deduped array
+*/
+function isInOriginalOrderAfterDedupe(inputedArr, outputedArr) {
+  inputedArr = removeDuplicates(inputedArr);
+  return inputedArr.join(',') === outputedArr.join(',');
+}
+
+/**
+Helper function to create DOM nodes and attach to html document.
+
+side-effect: adds DOM to HTML document
 
 params: options {Object}
   options: {
     htmlData: {Array}
     tag: {string}
-    id {string} *optional
-    attrs {Object} *optional
+    id: {string} *optional
+    attrs: {Object} *optional
   }
 */
 function createAndAppendDOM(options) {
@@ -118,7 +163,9 @@ function createAndAppendDOM(options) {
   })
 };
 
-/** Helper function to create an array of email data
+/** Helper function to create an array of data
+
+returns: {Array}
 
 params: arr {Array} //an array of strings used as basis to create the iterated  collector array
 params: iterator {Number}
