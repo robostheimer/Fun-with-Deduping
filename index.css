@@ -1,6 +1,8 @@
-body {
+body,
+button {
   font-size: 16px;
   font-family: sans-serif;
+  cursor: pointer;
 }
 
 sup {
@@ -22,7 +24,7 @@ li {
 }
 
 #test .fail {
-  background: red;
+  background: #d49797;
 
 }
 
@@ -32,7 +34,7 @@ li {
 }
 
 #test .pass {
-  background: green;
+  background: #81b381;
 }
 
 #test .pass:before {
@@ -41,11 +43,11 @@ li {
 }
 
 .milliseconds.pass {
-  color: green;
+  color: #81b381;
 }
 
 .milliseconds.fail {
-  color: red;
+  color: #d49797;;
 }
 
 #test .pass,
@@ -53,6 +55,21 @@ li {
   font-weight: bold;
   margin: 15px;
   color: white;
-  border-bottom: 5px solid #ffffaa;
+  border: 5px solid #ffffaa;
   padding: 8px;
+  text-align: left;
+}
+
+.pass > p,
+.fail > p {
+  display: none;
+}
+
+.pass > div,
+.fail > div
+ {
+  content: 'View Assertion Tested';
+  padding: 10px 0;
+  display: block;
+  text-align: center;
 }

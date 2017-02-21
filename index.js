@@ -25,18 +25,18 @@ createAndAppendDOM({
 
 /** Unit Testing **/
 //Testing hasDuplicates Flag with generic/hardcoded array
-assert(hasDuplicates([2, 4, 5, 2]), 'Test to check that hasDuplicates flag works: this array has duplicates', 'Test that hasDuplicates flag works: this array does not have duplicates')
+assert(hasDuplicates([2, 4, 5, 2]), 'Test to check that hasDuplicates flag works: this array has duplicates', 'Test that hasDuplicates flag works: this array does not have duplicates', 'hasDuplicates([2, 4, 5, 2])')
 //Tesing that removeDups is actually a deduped array of emails
-assert(!hasDuplicates(removeDups),  'Test for removeDuplicates function: there are no duplicates in this array', 'Test for removeDuplicates function: there are duplicates in this array');
+assert(!hasDuplicates(removeDups),  'Test for removeDuplicates function: there are no duplicates in this array', 'Test for removeDuplicates function: there are duplicates in this array', '!hasDuplicates(removeDups)');
 
 //Testing execution time of the removeDuplicates function
-assert(executionTime < 1000, `Amount of time it takes removeDuplicates Test to execute: Function took ${executionTime}ms to execute. Nice!`, 'Amount of time it takes removeDuplicates Test to execute: removeDuplicates Function took ${executionTime}ms to execute.  Better luck next time.' );
+assert(executionTime < 1000, `Amount of time it takes removeDuplicates Test to execute: Function took ${executionTime}ms to execute. Nice!`, 'Amount of time it takes removeDuplicates Test to execute: removeDuplicates Function took ${executionTime}ms to execute.  Better luck next time.', 'executionTime < 1000');
 
 //Testing ordering of Deduped function using generic arrays
-assert(isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3]), 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are in original order', 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are not in original order')
+assert(isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3]), 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are in original order', 'Test of the isInOriginalOrderAfterDedupe function: Generic/hardcoded arrays are not in original order', 'isInOriginalOrderAfterDedupe([1,2,3,3,2], [1,2,3])')
 
 //Testing that items in removeDups array are in the same order as the original emails array
-assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the same order as the original array', 'Note all emails are in the same order as the original array');
+assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the same order as the original array', 'Note all emails are in the same order as the original array', 'isInOriginalOrderAfterDedupe(emails, removeDups)');
 
 /** Functions **/
 
@@ -50,15 +50,40 @@ assert(isInOriginalOrderAfterDedupe(emails, removeDups), 'All emails are in the 
   params: testDescription {String}
   params: 'errorMsg' {String} *optional
 */
-function assert(testOutcome, testDescription, errorMsg) {
+function assert(testOutcome, testDescription, errorMsg, assertion) {
   const msg = testOutcome ? testDescription:errorMsg || '';
 
   createAndAppendDOM({
     htmlData: [msg],
-    attrs: { class: testOutcome ? 'pass':'fail' },
-    tag:'li',
+    attrs: { class: testOutcome ? 'pass':'fail' , id: assertion },
+    tag:'button',
     id: 'test'
   });
+
+  createAndAppendDOM({
+    htmlData: [`Assertion Tested: ${assertion}`],
+    tag:'p',
+    id: assertion
+  });
+
+  createAndAppendDOM({
+    htmlData: ['View Assertion'],
+    tag:'div',
+    id: assertion
+  });
+
+  let id = document.getElementById(assertion);
+  id.addEventListener('click', function(e) {
+    if(e.currentTarget.getElementsByTagName('p')[0].style.display === 'block') {
+      e.currentTarget.getElementsByTagName('p')[0].style.display ='none';
+      e.currentTarget.getElementsByTagName('div')[0].innerHTML = "View Assertion"
+    } else {
+      e.currentTarget.getElementsByTagName('p')[0].style.display ='block';
+      e.currentTarget.getElementsByTagName('div')[0].style.display = "block"
+      e.currentTarget.getElementsByTagName('div')[0].innerHTML = "Hide Assertion"
+    }
+
+  })
 }
 
 /**

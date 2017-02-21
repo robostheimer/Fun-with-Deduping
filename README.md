@@ -1,5 +1,5 @@
 # Fun-with-Deduping
-Deduping Algorithm that includes unit tesst.
+Deduping Algorithm that includes unit test.
 
 Dedupes an array of 100K email addresses in less than 100ms.
 
